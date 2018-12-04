@@ -1,38 +1,76 @@
-#PyBank
+## PyBank
 import os
 import csv
+import datetime
+from datetime import date
+today = str(date.today())
 
 csvpath = os.path.join('..', 'PyBank','budget_data.csv')
 
+# Determine total months
+total_months = int(0)
 with open(csvpath, newline="") as csvfile:
     csvreader = csv.reader(csvfile, delimiter=",")   
     csv_header = next(csvreader)
-    print(f"Header: {csv_header}")
-    
+
     for row in csvreader:
-
         if row[0]:
-            print(f"{row[0]} is a row")
+            total_months += 1
 
-        
-# Start by defining the rows of data we will operate over, from 2 to "last_row"
+# Determine total net profit
+total_net = int(0)
+with open(csvpath, newline="") as csvfile:
+    csvreader = csv.reader(csvfile, delimiter=",")   
+    csv_header = next(csvreader)
 
-# "last_row - 1" should be equivalent to "total_months"
+    for row in csvreader:
+        if row[1]:
+            total_net += int(row[1])
 
-# For column 2, rows 2 to last_row, add value in cell to "total_net"
+# Determine the average change
+with open(csvpath, newline="") as csvfile:
+    csvreader = csv.reader(csvfile, delimiter=",")   
+    csv_header = next(csvreader) #skip the header
+    total_changes = 0
+    individual_profits = []
+    individual_months = []
+    individual_changes = []
 
-# For column 2, rows 2 to "last row-1", subtract each row from the row after it
-# Sum the results
-# Divide by the total months, define as "average_change"
+    for row in csvreader:
+        current_month_amount =int(row[1])
+        current_month = row[0]
+        individual_profits.append(current_month_amount)
+        individual_months.append(current_month)
+
+for n in range(1,86):
+    individual_changes.append(individual_profits[n]-individual_profits[n-1])
+    total_changes=sum(individual_changes)
+    average_change = total_changes/(total_months-1)
+
+# Determine the greatest increase
+greatest_increase_amount = individual_changes[0]
+for n in range(1,85):
+    if individual_changes[n] > greatest_increase_amount:
+        greatest_increase_amount = individual_changes[n]
+        greatest_increase_month = individual_months[n+1]
+
+# Determine the greatest increase
+greatest_decrease_amount = individual_changes[0]
+for n in range(1,85):
+    if individual_changes[n] < greatest_decrease_amount:
+        greatest_decrease_amount = individual_changes[n]
+        greatest_decrease_month = individual_months[n+1]
 
 
 
 
-
-print("Financial Analysis")
-print("---------------------")
-#print(f"Total Months: {total_months}")
-#print(f"Total: ${total_net}")
-#print(f"Average Change: ${average_change}")
-#print(f"Greatest increase in profits: ${greatest_increase}")
-#print(f"Greatest increase in profits: ${greatest_decrease}")
+print("                            ")
+print("                            ")
+print(f"Financial Analysis {today}")
+print("--------------------------------------------------------")
+print(f"Total Months: {total_months}")
+print(f"Total: ${total_net}")
+print(f"Average Change: ${round(average_change,2)}")
+print(f"Greatest increase in profits: ${greatest_increase_amount} for {greatest_increase_month}")
+print(f"Greatest increase in profits: ${greatest_decrease_amount} for {greatest_decrease_month}")
+print("                            ")
