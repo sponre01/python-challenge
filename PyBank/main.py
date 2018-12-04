@@ -63,14 +63,14 @@ for n in range(1,85):
 
 
 
-
-print("                            ")
-print("                            ")
-print(f"Financial Analysis {today}")
-print("--------------------------------------------------------")
-print(f"Total Months: {total_months}")
-print(f"Total: ${total_net}")
-print(f"Average Change: ${round(average_change,2)}")
-print(f"Greatest increase in profits: ${greatest_increase_amount} for {greatest_increase_month}")
-print(f"Greatest increase in profits: ${greatest_decrease_amount} for {greatest_decrease_month}")
-print("                            ")
+with open("Financial Analysis Output.txt", "w") as text_file:
+    #print("                            ", file = text_file)
+    #print("                            ", file = text_file)
+    print(f"Financial Analysis {today}", file = text_file)
+    print("--------------------------------------------------------", file = text_file)
+    print(f"Total Months: {total_months}", file = text_file)
+    print(f"Total: ${total_net}", file = text_file)
+    print(f"Average Change: ${round(average_change,2)}", file = text_file)
+    print(f"Greatest increase in profits: ${greatest_increase_amount} for {greatest_increase_month}", file = text_file)
+    print(f"Greatest decrease in profits: ${greatest_decrease_amount} for {greatest_decrease_month}", file = text_file)
+    #print("                            ", file = text_file)

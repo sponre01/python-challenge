@@ -60,18 +60,19 @@ candidate = []
 for n in range(len(last_name)):
    candidate.append(str())
 
-print(f"                                   ")
-print(f"                                   ")
-print(f"Election Results")
-print(f"-------------------------")
-print(f"Total Votes: {total_votes}")
-print(f"------------------------")
+with open("Election Results Output.txt", "w") as text_file:
+    #print(f"                                   ", file = text_file)
+    #print(f"                                   ", file = text_file)
+    print(f"Election Results", file = text_file)
+    print(f"---------------------------", file = text_file)
+    print(f"Total Votes: {total_votes}", file = text_file)
+    print(f"---------------------------", file = text_file)
 
-for n in range(len(last_name)):
-    candidate[n] = {'name':str(last_name[n]), 'percent':percent_won[n], 'total':total_won[n]}
-    print(f"{(candidate[n]['name'])}: {round((candidate[n]['percent']),5)}% ({(candidate[n]['total'])})")
+    for n in range(len(last_name)):
+        candidate[n] = {'name':str(last_name[n]), 'percent':percent_won[n], 'total':total_won[n]}
+        print(f"{(candidate[n]['name'])}: {round((candidate[n]['percent']),3)}% ({(candidate[n]['total'])})", file = text_file)
 
-print(f"-------------------------")
-print(f"Winner: {winner}")
-print(f"-------------------------")
-print(f"                                   ")
+    print(f"---------------------------", file = text_file)
+    print(f"Winner: {winner}", file = text_file)
+    print(f"-------------------------", file = text_file)
+    #print(f"                                   ", file = text_file)
