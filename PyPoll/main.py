@@ -1,7 +1,3 @@
-#The percentage of votes each candidate won
-#The total number of votes each candidate won
-#The winner of the election based on popular vote.
-
 ## PyPoll
 import os
 import csv
@@ -31,13 +27,38 @@ with open(csvpath, newline="") as csvfile:
         if row[2] not in last_name:
             last_name.append(str(row[2]))
 
-
-
-
-percent_won = []
+#Find the total number of votes each candidate won
 total_won = []
+for n in range(len(last_name)):
+   total_won.append(0)
 
-candidate = [] #list of candidates for dictionary
+with open(csvpath, newline="") as csvfile:
+    csvreader = csv.reader(csvfile, delimiter=",")   
+    csv_header = next(csvreader)
+
+    for row in csvreader:
+        for n in range(len(last_name)):
+            if row[2] == last_name[n]:
+                total_won[n] += 1
+                break
+
+#Determine the percentage of votes each candidate won
+percent_won = []
+for n in range(len(last_name)):
+   percent_won.append((total_won[n]/total_votes)*100)
+
+# Find the winner of the election based on popular vote
+winner = "nobody"
+winning_percent = 0
+for n in range(len(last_name)):
+   if percent_won[n] > winning_percent:
+       winning_percent = percent_won[n]
+       winner = last_name[n]
+
+# Add the candidates and information to a dictionary and print!
+candidate = []
+for n in range(len(last_name)):
+   candidate.append(str())
 
 print(f"                                   ")
 print(f"                                   ")
@@ -46,10 +67,11 @@ print(f"-------------------------")
 print(f"Total Votes: {total_votes}")
 print(f"------------------------")
 
-#For n in range(len(last_name))
-#    candidate[n] = {"name":str(last_name[n]), "percent":percent_won[n], "total":total_won[n]}
-#    print(f"{(candidate[n]["name"])}: {(candidate[n]["percent"])} ({(candidate[n]["total"])})")
+for n in range(len(last_name)):
+    candidate[n] = {'name':str(last_name[n]), 'percent':percent_won[n], 'total':total_won[n]}
+    print(f"{(candidate[n]['name'])}: {round((candidate[n]['percent']),5)}% ({(candidate[n]['total'])})")
 
-#print(f"-------------------------")
-#print(f"Winner: {winner}")
-#print(f"-------------------------")
+print(f"-------------------------")
+print(f"Winner: {winner}")
+print(f"-------------------------")
+print(f"                                   ")
